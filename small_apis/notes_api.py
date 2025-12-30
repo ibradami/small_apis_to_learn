@@ -28,7 +28,7 @@ def update_note(id: int = Path(..., description="Note ID", gt=0),
     update_data=note.model_dump(exclude_unset=True)
     stored_data=notes[id]
     stored_data.update(update_data)
-    return stored_data
+    return {"message":"Success","note":stored_data}
 
 @app.delete("/notes/{id}")
 def delete_note(id: int = Path(..., description="Task ID", gt=0)):
@@ -43,5 +43,3 @@ def find_note_by_keyword(keyword: str = Query(..., description="Keyword")):
         if keyword.lower() in note["text"].lower():
             return {"message":"Note Found","id": id,"note":note}
     raise HTTPException(status_code=404, detail="Note not Found")
-
-        
